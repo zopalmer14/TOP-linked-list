@@ -55,6 +55,11 @@ class LinkedList {
 
     // returns the last node in the list
     tail() {
+        // check if list is empty
+        if (this.listHead === null) {
+            return 'Error: list is empty';
+        }
+
         let curr = this.listHead;
         while (curr.nextNode !== null) {
             curr = curr.nextNode;
@@ -79,10 +84,21 @@ class LinkedList {
         return curr;
     }
 
-    // removes the last element from the list
+    // removes the last element from the list and returns it
     pop() {
-        // iterate to the last node
+        // check if list is empty
+        if (this.listHead === null) {
+            return 'Error: list is empty';
+        }
+
+        // if there is only one item - set head to null and return the old head
         let curr = this.listHead;
+        if (this.length === 1) {
+            this.listHead = null;
+            return curr;
+        }
+
+        // otherwise - iterate to the last node
         let prev = null;
         while (curr.nextNode !== null) {
             prev = curr;
@@ -95,21 +111,71 @@ class LinkedList {
 
         // decrement the length
         this.length--;
+
+        return curr;
     }
 
     // returns true if the passed in value is in the list and false otherwise
     contains(value) {
+        // check if list is empty
+        if (this.listHead === null) {
+            return false;
+        }
 
+        // iterate over the list to search for the value
+        let curr = this.listHead;
+        while (curr.nextNode !== null) {
+            if (curr.value === value) {
+                return true;
+            }
+            curr = curr.nextNode;
+        }
+
+        // finally, check the tail value as well
+        return curr.value === value ? true : false;
     }
 
     // returns the index of the node containing value, or null if not found
     find(value) {
+        // check if list is empty
+        if (this.listHead === null) {
+            return null;
+        }
 
+        // iterate over the list to search for the value
+        let curr = this.listHead;
+        let index = 0;
+        while (curr.nextNode !== null) {
+            if (curr.value === value) {
+                return index;
+            }
+            curr = curr.nextNode;
+            index++;
+        }
+
+        // finally, check the tail value as well
+        return curr.value === value ? index : null;
     }
 
     // returns a String representation of the linked list
     toString() {
+        // check if list is empty
+        if (this.listHead === null) {
+            return 'null';
+        }
 
+        // iterate over the list and add each node's value to the result string
+        let result = '';
+        let curr = this.listHead;
+        while (curr.nextNode !== null) {
+            result += `( ${curr.value} ) -> `;
+            curr = curr.nextNode;
+        }
+
+        // add the 'null' to the end
+        result += 'null';
+        
+        return result;
     }
 
     // inserts a new node with the provided value at the given index
